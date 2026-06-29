@@ -36,7 +36,7 @@ const createTodo = async (req, res) => {
 
 const getTodo = async (req, res) => {
     try {
-        const { userId } = req.user;
+        const userId = req.user.id;
         const todos = await Todo.find({ userId });
 
         if (!todos)
