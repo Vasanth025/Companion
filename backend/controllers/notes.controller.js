@@ -24,7 +24,7 @@ const createNote = async (req, res) => {
 
 const getNote = async (req, res) => {
     try {
-        const { userId } = req.user;
+        const userId = req.user.id;
         const notes = await Note.find({ userId });
 
         if (!notes) {
@@ -65,7 +65,7 @@ const editNote = async (req, res) => {
 
 const deleteNote = async (req, res) => {
     try {
-        const { noteId } = req.body;
+        const { noteId } = req.params;
         const note = await Note.findByIdAndDelete(noteId);
 
         if (!note) {

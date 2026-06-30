@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.post("/create", authenticateToken, createNote);
 router.get("/getall", authenticateToken, getNote);
-router.put("/edit", authenticateToken, editNote);
-router.delete("/delete", authenticateToken, deleteNote);
+router.put("/edit/:noteId", authenticateToken, editNote);
+router.delete("/delete/:noteId", authenticateToken, deleteNote);
 
 export default router;
