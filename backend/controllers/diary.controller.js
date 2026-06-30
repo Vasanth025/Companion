@@ -22,7 +22,7 @@ const createDiaryEntry = async (req, res) => {
             mood,
             tags,
             date,
-            userId: req.user.userId
+            userId: req.user.id
         })
 
         return res.json({ status: 201, message: "Diary entry created successfully", newDiaryEntry })
@@ -34,7 +34,7 @@ const createDiaryEntry = async (req, res) => {
 
 const editDiaryEntry = async (req, res) => {
     try {
-        const { diaryEntryId } = req.body;
+        const { diaryEntryId } = req.params;
 
         if (!diaryEntryId)
             return res.json({ status: 404, error: "Missing diary entry id" })
@@ -63,7 +63,7 @@ const editDiaryEntry = async (req, res) => {
 
 const deleteDiaryEntry = async (req, res) => {
     try {
-        const { diaryEntryId } = req.body;
+        const { diaryEntryId } = req.params;
 
         if (!diaryEntryId)
             return res.json({ status: 404, error: "Missing diary entry id" })
@@ -82,7 +82,7 @@ const deleteDiaryEntry = async (req, res) => {
 
 const getAllDiaryEntries = async (req, res) => {
     try {
-        const diaryEntries = await Diary.find({ userId: req.user.userId });
+        const diaryEntries = await Diary.find({ userId: req.user.id });
 
         if (!diaryEntries)
             return res.json({ status: 404, error: "Diary entries not found" })

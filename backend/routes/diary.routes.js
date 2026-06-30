@@ -5,7 +5,7 @@ import { createDiaryEntry, deleteDiaryEntry, editDiaryEntry, getAllDiaryEntries 
 
 router.post("/create", authenticateToken, createDiaryEntry);
 router.get("/getall", authenticateToken, getAllDiaryEntries);
-router.put("/edit", authenticateToken, editDiaryEntry);
-router.delete("/delete", authenticateToken, deleteDiaryEntry);
+router.put("/edit/:diaryEntryId", authenticateToken, editDiaryEntry);
+router.delete("/delete/:diaryEntryId", authenticateToken, deleteDiaryEntry);
 
 export default router;
