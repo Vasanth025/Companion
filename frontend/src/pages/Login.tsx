@@ -1,8 +1,10 @@
 import React from "react";
 import type { LoginAction, LoginState } from "../utils/types";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+    const navigate = useNavigate();
     const initialState: LoginState = {
         email: "",
         password: "",
@@ -44,7 +46,7 @@ const Login = () => {
 
         dispatch({ type: 'LOADING', value: true });
 
-        const res = await axios.post("http://localhost:4000/api/auth/login", {
+        const res = await axios.post(import.meta.env.VITE_API_URL + "/api/auth/login", {
             email: state.email,
             password: state.password
         });
@@ -120,7 +122,7 @@ const Login = () => {
                         </button>
                     </form>
                     <div className="mt-4 text-center">
-                        <p>Don't have an account? <span className="text-[#841DED] cursor-pointer">Sign up</span></p>
+                        <p>Don't have an account? <span className="text-[#841DED] cursor-pointer" onClick={() => navigate("/register")}>Sign up</span></p>
                     </div>
                 </div>
             </section>
