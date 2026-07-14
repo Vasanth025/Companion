@@ -2,6 +2,7 @@ import React from "react";
 import type { LoginAction, LoginState } from "../utils/types";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -51,7 +52,9 @@ const Login = () => {
             password: state.password
         });
 
-        console.log(res.data);
+        localStorage.setItem("token", res.data.token);
+
+        toast.success("Login Successful");
     };
 
     return (

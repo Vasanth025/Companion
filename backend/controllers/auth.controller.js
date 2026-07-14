@@ -68,4 +68,20 @@ const Login = async (req, res) => {
     }
 }
 
-export { Signup, Login };
+const getMe = async (req,res) => {
+    try {
+        const userId = req.user.id
+
+        if(!userId)
+            return res.json({status:401, message:"Unauthorized"})
+
+        const userDetails = await User.findById(userId).select("-password");
+        
+        return res.json({ status: 200, message: "User fetched successfully", user: userDetails });
+    } catch (error) {
+        console.log('error', error);
+        return res.json({ status: 502, error: "Internal Server Error" });
+    }
+}
+
+export { Signup, Login, getMe };
