@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import { HiXMark } from "react-icons/hi2";
 
 type User = {
   _id: string;
@@ -25,9 +26,9 @@ const Navbar = () => {
           }
         );
 
-        console.log(res.data);
+        console.log(res.data.user);
 
-        setUser(res.data); // Change to res.data.user if your API returns { user: ... }
+        setUser(res.data.user); // Change to res.data.user if your API returns { user: ... }
       } catch (err) {
         console.error(err);
       }
@@ -67,17 +68,33 @@ const Navbar = () => {
             <div className="absolute right-0 mt-3 w-80 bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
 
               <div className="bg-[#841DED] text-white p-6">
-                <div className="h-16 w-16 rounded-full bg-white text-[#841DED] flex items-center justify-center text-2xl font-bold mb-3">
-                  {user.name.charAt(0).toUpperCase()}
+                <div className="flex items-start justify-between">
+                  <div className="flex items-center gap-4">
+                    {/* Avatar */}
+                    <div className="h-16 w-16 rounded-full bg-white text-[#841DED] flex items-center justify-center text-2xl font-bold flex-shrink-0">
+                      {user.name.charAt(0).toUpperCase()}
+                    </div>
+
+                    {/* User Info */}
+                    <div>
+                      <h2 className="text-xl font-semibold">
+                        {user.name}
+                      </h2>
+
+                      <p className="text-sm text-purple-100">
+                        {user.email}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Close Button */}
+                  <button
+                    onClick={() => setOpen(false)}
+                    className="rounded-full p-1 hover:bg-purple-700 hover:cursor-pointer active:scale-95 transition"
+                  >
+                    <HiXMark size={24} />
+                  </button>
                 </div>
-
-                <h2 className="text-xl font-semibold">
-                  {user.name}
-                </h2>
-
-                <p className="text-sm text-purple-100">
-                  {user.email}
-                </p>
               </div>
 
               <div className="p-5 space-y-3">

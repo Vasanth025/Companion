@@ -25,3 +25,23 @@ export type RegisterAction =
  | { type: 'LOADING', value: boolean }
  | { type: 'REGISTER_SUCCESS', value: string }
  | { type: 'REGISTER_ERROR', value: string }
+
+export type TodoForm = {
+    todoName: string;
+    dueDate: string;
+    time: string;
+    priority: string;
+}
+
+export type TodoList = {
+    todoName: string,
+    dueDate: string,
+    time: string,
+    priority: string,
+    completed: boolean,
+    _id: string
+    finishedDate: string,
+    createdAt: string,
+    updatedAt: string,
+    userId: string
+}

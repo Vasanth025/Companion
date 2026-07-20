@@ -2,7 +2,9 @@ import Todo from "../models/todo.model.js";
 
 const createTodo = async (req, res) => {
     try {
-        const { todoName, userId, dueDate, time, priority } = req.body;
+        const { todoName, dueDate, time, priority } = req.body;
+
+        const userId = req.user.id;
 
         if (!todoName)
             return res.json({ status: 404, error: "Missing todo name" })
