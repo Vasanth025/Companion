@@ -95,6 +95,26 @@ const deleteTodo = async (req, res) => {
     }
 }
 
+const getTodoByDate = async (req, res) => {
+    try {
+        const {date} = req.body;
+
+        if(!date)
+            return res.json({error: 'date is required'});
+
+        const todos = await Todo.find({dueDate: date})
+
+        return res.json({
+            status: 200,
+            message: "Todos fetched Successfully",
+            todos: todos
+        })
+    } catch (error) {
+        console.log('Error', error)
+        return res.json({ status: 502, error: "Internal Server Error" })
+    }
+}
 
 
-export { createTodo, getTodo, updateTodo, deleteTodo }
+
+export { createTodo, getTodo, updateTodo, deleteTodo, getTodoByDate }
