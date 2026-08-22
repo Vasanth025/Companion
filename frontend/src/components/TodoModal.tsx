@@ -1,5 +1,5 @@
-import React from "react";
-import { HiXMark } from "react-icons/hi2";
+import React, { useState } from "react";
+import { HiXMark, HiChevronDown } from "react-icons/hi2";
 import type { TodoForm } from "../utils/types";
 
 type TodoModalProps = {
@@ -19,6 +19,8 @@ const TodoModal = ({
   onClose,
   onSubmit,
 }: TodoModalProps) => {
+  const [isPriorityOpen, setIsPriorityOpen] = useState(false);
+
   if (!open) return null;
 
   return (
@@ -134,21 +136,78 @@ const TodoModal = ({
               Priority
             </label>
 
-            <select
-              value={todoForm.priority}
-              onChange={(e) =>
-                setTodoForm({
-                  ...todoForm,
-                  priority: e.target.value,
-                })
-              }
-              className="w-full rounded-xl border border-[#ECE8F3] bg-[#F8F7FC] px-4 py-3 outline-none focus:border-[#841DED]"
-            >
-              <option value="">Select Priority</option>
-              <option value="High">🔴 High</option>
-              <option value="Medium">🟡 Medium</option>
-              <option value="Low">🟢 Low</option>
-            </select>
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => setIsPriorityOpen(!isPriorityOpen)}
+                className="w-full rounded-xl border border-[#ECE8F3] bg-[#F8F7FC] px-4 py-3 text-left outline-none focus:border-[#841DED] flex items-center justify-between"
+              >
+                <span className="flex items-center">
+                  {todoForm.priority === "High" && (
+                    <>
+                      <span className="mr-2 h-3 w-3 rounded-full bg-red-500"></span>
+                      High
+                    </>
+                  )}
+                  {todoForm.priority === "Medium" && (
+                    <>
+                      <span className="mr-2 h-3 w-3 rounded-full bg-yellow-500"></span>
+                      Medium
+                    </>
+                  )}
+                  {todoForm.priority === "Low" && (
+                    <>
+                      <span className="mr-2 h-3 w-3 rounded-full bg-green-500"></span>
+                      Low
+                    </>
+                  )}
+                  {!todoForm.priority && <span className="text-gray-400">Select Priority</span>}
+                </span>
+                <HiChevronDown
+                  className={`ml-2 h-5 w-5 text-gray-400 transition-transform ${
+                    isPriorityOpen ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
+
+              {isPriorityOpen && (
+                <div className="absolute z-10 mt-2 w-full overflow-hidden rounded-xl border border-[#ECE8F3] bg-white shadow-lg">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setTodoForm({ ...todoForm, priority: "High" });
+                      setIsPriorityOpen(false);
+                    }}
+                    className="w-full rounded-t-xl px-4 py-3 text-left hover:bg-[#F8F7FC] flex items-center transition"
+                  >
+                    <span className="mr-2 h-3 w-3 rounded-full bg-red-500"></span>
+                    High
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setTodoForm({ ...todoForm, priority: "Medium" });
+                      setIsPriorityOpen(false);
+                    }}
+                    className="w-full px-4 py-3 text-left hover:bg-[#F8F7FC] flex items-center transition"
+                  >
+                    <span className="mr-2 h-3 w-3 rounded-full bg-yellow-500"></span>
+                    Medium
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setTodoForm({ ...todoForm, priority: "Low" });
+                      setIsPriorityOpen(false);
+                    }}
+                    className="w-full rounded-b-xl px-4 py-3 text-left hover:bg-[#F8F7FC] flex items-center transition"
+                  >
+                    <span className="mr-2 h-3 w-3 rounded-full bg-green-500"></span>
+                    Low
+                  </button>
+                </div>
+              )}
+            </div>
 
           </div>
 

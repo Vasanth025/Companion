@@ -6,7 +6,8 @@ import Register from "./pages/Register";
 import {ToastContainer} from "react-toastify"
 import AuthLayout from "./layout/AuthLayout";
 import MainLayout from "./layout/MainLayout";
-import Notes from "./pages/Notes";
+// import Notes from "./pages/Todos";
+import Todos from "./pages/Todos";
 
 const App = () =>{
   return(
@@ -20,7 +21,7 @@ const App = () =>{
           </Route>
 
           <Route element={<MainLayout />}>
-            <Route path="/notes" element={<Notes />} />
+            <Route path="/notes" element={<Todos />} />
           </Route>
         </Routes>
       </BrowserRouter>

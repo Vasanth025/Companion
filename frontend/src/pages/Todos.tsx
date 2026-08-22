@@ -5,7 +5,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import TodoCard from "../components/TodoCard";
 
-const Notes = () => {
+const Todos = () => {
 
     const [todoForm, setTodoForm] = React.useState<TodoForm>({
         todoName: "",
@@ -41,7 +41,7 @@ const Notes = () => {
         try {
             if (isEdit) {
                 await axios.put(
-                    `${import.meta.env.VITE_API_URL}/api/todo/update/${selectedTodoId}`,
+                    `${import.meta.env.VITE_API_URL}/api/todo/edit/${selectedTodoId}`,
                     todoForm,
                     {
                         headers: {
@@ -344,4 +344,4 @@ const Notes = () => {
     );
 };
 
-export default Notes;
+export default Todos;

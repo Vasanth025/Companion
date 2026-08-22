@@ -2,6 +2,16 @@ import React from "react";
 import type { TodoList } from "../utils/types";
 import { HiOutlinePencilSquare, HiOutlineTrash } from "react-icons/hi2";
 
+const formatDate = (dateString: string): string => {
+  if (!dateString) return "";
+  const date = new Date(dateString);
+  return date.toLocaleDateString("en-US", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
+};
+
 type TodoCardProps = {
   todo: TodoList;
   onEdit: (todo: TodoList) => void;
@@ -40,6 +50,10 @@ const TodoCard = ({
           <div className="mt-2 flex items-center gap-3">
 
             <span className="text-[#7C748E]">
+              {formatDate(todo.dueDate)}
+            </span>
+
+            <span className="text-[#7C748E]">
               {todo.time}
             </span>
 
@@ -66,14 +80,20 @@ const TodoCard = ({
 
         <button
           onClick={() => onEdit(todo)}
-          className="rounded-lg p-2 text-[#841DED] transition hover:bg-[#F3ECFF]"
+          disabled={todo.completed}
+          className={`rounded-lg p-2 text-[#841DED] transition hover:bg-[#F3ECFF] ${
+            todo.completed ? "opacity-50 cursor-not-allowed" : ""
+          }`}
         >
           <HiOutlinePencilSquare size={22} />
         </button>
 
         <button
           onClick={() => onDelete(todo._id!)}
-          className="rounded-lg p-2 text-red-500 transition hover:bg-red-50"
+          disabled={todo.completed}
+          className={`rounded-lg p-2 text-red-500 transition hover:bg-red-50 ${
+            todo.completed ? "opacity-50 cursor-not-allowed" : ""
+          }`}
         >
           <HiOutlineTrash size={22} />
         </button>
