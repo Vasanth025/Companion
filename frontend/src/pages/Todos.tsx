@@ -4,6 +4,8 @@ import TodoModal from "../components/TodoModal";
 import axios from "axios";
 import { toast } from "react-toastify";
 import TodoCard from "../components/TodoCard";
+import { DayPicker } from "react-day-picker";
+import "react-day-picker/dist/style.css";
 
 const Todos = () => {
 
@@ -18,9 +20,15 @@ const Todos = () => {
     const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
     const [isEdit, setIsEdit] = React.useState<boolean>(false);
     const [selectedTodoId, setSelectedTodoId] = React.useState<string | null>(null);
+    const [selectedDate, setSelectedDate] = React.useState<Date | undefined>(new Date());
+    const [upcomingTodos, setUpcomingTodos] = React.useState<TodoList[]>([]);
 
     React.useEffect(() => {
-        fetchTodos();
+        fetchTodosByDate();
+    }, [selectedDate]);
+
+    React.useEffect(() => {
+        fetchUpcomingTodos();
     }, []);
 
     const handleAddTodo = async () => {
@@ -65,7 +73,8 @@ const Todos = () => {
                 toast.success("Todo Added Successfully!");
             }
 
-            fetchTodos();
+            // fetchTodos();
+            fetchTodosByDate();
 
             setTodoForm({
                 todoName: "",
@@ -110,7 +119,8 @@ const Todos = () => {
 
             toast.success("Todo Deleted Successfully!");
 
-            fetchTodos();
+            // fetchTodos();
+            fetchTodosByDate();
         } catch (error) {
             console.error(error);
             toast.error("Failed to delete todo.");
@@ -129,7 +139,8 @@ const Todos = () => {
                 }
             );
 
-            fetchTodos();
+            // fetchTodos();
+            fetchTodosByDate();
         } catch (error) {
             console.error(error);
             toast.error("Failed to update todo.");
@@ -146,6 +157,75 @@ const Todos = () => {
         setTodos(response.data.todos);
     }
 
+    const fetchTodosByDate = async () => {
+        if (!selectedDate) {
+            return;
+        }
+
+        const year = selectedDate.getFullYear();
+        const month = String(selectedDate.getMonth() + 1).padStart(2, "0");
+        const day = String(selectedDate.getDate()).padStart(2, "0");
+
+        const isoDate = `${year}-${month}-${day}T00:00:00.000+00:00`;
+
+
+        try {
+            const response = await axios.query(
+                `${import.meta.env.VITE_API_URL}/api/todo/getByDate`,
+                {
+                    date: isoDate
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("token")}`
+                    }
+                }
+            );
+
+            setTodos(response.data.todos);
+        } catch (error) {
+            console.error(error);
+            setTodos([]);
+        }
+    };
+
+    const fetchUpcomingTodos = async () => {
+        const today = new Date();
+        const next3Days = [];
+
+        for (let i = 1; i <= 3; i++) {
+            const nextDay = new Date(today);
+            nextDay.setDate(today.getDate() + i);
+            const year = nextDay.getFullYear();
+            const month = String(nextDay.getMonth() + 1).padStart(2, "0");
+            const day = String(nextDay.getDate()).padStart(2, "0");
+            const isoDate = `${year}-${month}-${day}T00:00:00.000+00:00`;
+            next3Days.push(isoDate);
+        }
+
+        try {
+            const allUpcoming = [];
+            for (const date of next3Days) {
+                const response = await axios.query(
+                    `${import.meta.env.VITE_API_URL}/api/todo/getByDueDate`,
+                    {
+                        date: date
+                    },
+                    {
+                        headers: {
+                            Authorization: `Bearer ${localStorage.getItem("token")}`
+                        }
+                    }
+                );
+                allUpcoming.push(...response.data.todos);
+            }
+            setUpcomingTodos(allUpcoming);
+        } catch (error) {
+            console.error(error);
+            setUpcomingTodos([]);
+        }
+    };
+
     return (
         <div className="grid grid-cols-12 min-h-screen bg-[#F8F7FC]">
 
@@ -161,13 +241,15 @@ const Todos = () => {
                         </h1>
 
                         <p className="mt-2 text-[#7C748E]">
-                            Wednesday, Oct 25 • 5 tasks remaining
+                            {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })} • {
+                                todos.filter(t => !t.completed).length
+                            } tasks remaining
                         </p>
                     </div>
 
-                    <button className="h-12 w-12 rounded-full bg-white shadow-sm">
+                    {/* <button className="h-12 w-12 rounded-full bg-white shadow-sm">
                         🔔
-                    </button>
+                    </button> */}
 
                 </div>
 
@@ -247,11 +329,11 @@ const Todos = () => {
 
                 <div className="rounded-3xl bg-[#F8F7FC] p-6">
 
-                    <h2 className="text-2xl font-bold">
-                        October 2023
-                    </h2>
-
-                    {/* Calendar Component */}
+                    <DayPicker
+                        mode="single"
+                        selected={selectedDate}
+                        onSelect={setSelectedDate}
+                    />
 
                 </div>
 
@@ -266,19 +348,26 @@ const Todos = () => {
                         </h3>
 
                         <span className="font-bold text-[#841DED]">
-                            80%
+                            {todos.length > 0 ? Math.round((todos.filter(t => t.completed).length / todos.length) * 100) : 0}%
                         </span>
 
                     </div>
 
                     <div className="mt-5 h-3 rounded-full bg-gray-200">
 
-                        <div className="h-full w-4/5 rounded-full bg-[#841DED]" />
+                        <div
+                            className="h-full rounded-full bg-[#841DED]"
+                            style={{
+                                width: todos.length > 0 ? `${(todos.filter(t => t.completed).length / todos.length) * 100}%` : '0%'
+                            }}
+                        />
 
                     </div>
 
                     <p className="mt-4 text-sm text-[#7C748E]">
-                        Almost there! You have completed 8 out of 10 tasks today.
+                        {todos.length > 0
+                            ? `You have completed ${todos.filter(t => t.completed).length} out of ${todos.length} tasks.`
+                            : 'No tasks for this date.'}
                     </p>
 
                 </div>
@@ -290,40 +379,39 @@ const Todos = () => {
                     <div className="mb-5 flex items-center justify-between">
 
                         <h2 className="text-2xl font-bold">
-                            Upcoming
+                            What's Next
                         </h2>
 
-                        <button className="text-[#841DED]">
+                        {/* <button className="text-[#841DED]">
                             View All
-                        </button>
+                        </button> */}
 
                     </div>
 
                     <div className="space-y-4">
 
-                        <div className="rounded-2xl bg-[#F8F7FC] p-5">
+                        {upcomingTodos.length === 0 ? (
+                            <div className="rounded-2xl bg-[#F8F7FC] p-5 text-center">
+                                <p className="text-sm text-[#7C748E]">
+                                    No upcoming tasks
+                                </p>
+                            </div>
+                        ) : (
+                            upcomingTodos.slice(0, 3).map((todo) => (
+                                <div key={todo._id} className="rounded-2xl bg-[#F8F7FC] p-5">
 
-                            <h3 className="font-semibold">
-                                Dentist Appointment
-                            </h3>
+                                    <h3 className="font-semibold">
+                                        {todo.todoName}
+                                    </h3>
 
-                            <p className="mt-2 text-sm text-[#7C748E]">
-                                Tomorrow • 9:00 AM
-                            </p>
+                                    <p className="mt-2 text-sm text-[#7C748E]">
+                                        {new Date(todo.dueDate).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}
+                                        {todo.time && ` • ${todo.time}`}
+                                    </p>
 
-                        </div>
-
-                        <div className="rounded-2xl bg-[#F8F7FC] p-5">
-
-                            <h3 className="font-semibold">
-                                Grocery Shopping
-                            </h3>
-
-                            <p className="mt-2 text-sm text-[#7C748E]">
-                                Sat, Oct 28
-                            </p>
-
-                        </div>
+                                </div>
+                            ))
+                        )}
 
                     </div>
 

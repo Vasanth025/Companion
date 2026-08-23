@@ -102,7 +102,10 @@ const getTodoByDate = async (req, res) => {
         if(!date)
             return res.json({error: 'date is required'});
 
-        const todos = await Todo.find({dueDate: date})
+        const todos = await Todo.find({createdAt: {
+            $gt: date,
+            $lt: new Date(date).setHours(23, 59, 59, 999)
+        }})
 
         return res.json({
             status: 200,
@@ -115,6 +118,26 @@ const getTodoByDate = async (req, res) => {
     }
 }
 
+const getTodoByDueDate = async(req, res) => {
+    try {
+        const {date} = req.body;
+
+        if(!date)
+            return res.json({error: 'date is required'});
+
+        const todos = await Todo.find({dueDate: date, completed: false});
+
+        return res.json({
+            status: 200,
+            message: "Todos fetched Successfully",
+            todos: todos
+        });
+    } catch (error) {
+        console.log('Error', error)
+        return res.json({ status: 502, error: "Internal Server Error" })
+    }
+}
 
 
-export { createTodo, getTodo, updateTodo, deleteTodo, getTodoByDate }
+
+export { createTodo, getTodo, updateTodo, deleteTodo, getTodoByDate, getTodoByDueDate }
