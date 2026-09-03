@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   HiOutlineSparkles,
   HiOutlineArrowPath,
@@ -149,7 +149,7 @@ const Games = () => {
 
       {/* Main Tools Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        
+
         {/* Breathing Tool (6 cols) */}
         <div className="lg:col-span-6 bg-white rounded-2xl p-7 border border-gray-200 flex flex-col justify-between items-center text-center shadow-xs">
           <div className="w-full flex items-center justify-between">
@@ -165,11 +165,10 @@ const Games = () => {
                   setBreathPhase("Inhale");
                   setBreathTimer(4);
                 }}
-                className={`px-3 py-1 rounded-md text-xs font-semibold transition ${
-                  breathPattern === "4-4-4"
+                className={`px-3 py-1 rounded-md text-xs font-semibold transition ${breathPattern === "4-4-4"
                     ? "bg-[#841DED] text-white"
                     : "text-gray-600 hover:text-[#841DED]"
-                }`}
+                  }`}
               >
                 Box 4-4-4
               </button>
@@ -179,11 +178,10 @@ const Games = () => {
                   setBreathPhase("Inhale");
                   setBreathTimer(4);
                 }}
-                className={`px-3 py-1 rounded-md text-xs font-semibold transition ${
-                  breathPattern === "4-7-8"
+                className={`px-3 py-1 rounded-md text-xs font-semibold transition ${breathPattern === "4-7-8"
                     ? "bg-[#841DED] text-white"
                     : "text-gray-600 hover:text-[#841DED]"
-                }`}
+                  }`}
               >
                 Calm 4-7-8
               </button>
@@ -205,13 +203,12 @@ const Games = () => {
           <div className="my-6 relative flex items-center justify-center">
             <div className="w-56 h-56 rounded-full border-2 border-purple-100 flex items-center justify-center bg-purple-50/30">
               <div
-                className={`w-44 h-44 rounded-full bg-[#F3ECFF] border border-purple-200 text-[#841DED] flex flex-col items-center justify-center transition-transform duration-1000 shadow-sm ${
-                  breathPhase === "Inhale"
+                className={`w-44 h-44 rounded-full bg-[#F3ECFF] border border-purple-200 text-[#841DED] flex flex-col items-center justify-center transition-transform duration-1000 shadow-sm ${breathPhase === "Inhale"
                     ? "scale-110"
                     : breathPhase === "Hold"
-                    ? "scale-105"
-                    : "scale-95"
-                }`}
+                      ? "scale-105"
+                      : "scale-95"
+                  }`}
               >
                 <span className="text-xs font-bold uppercase tracking-widest text-[#841DED]">
                   {breathPhase}
@@ -261,11 +258,10 @@ const Games = () => {
                 <button
                   key={c.id}
                   onClick={() => handleCardClick(c.id)}
-                  className={`h-16 rounded-xl text-2xl flex items-center justify-center transition border cursor-pointer ${
-                    c.flipped || c.matched
+                  className={`h-16 rounded-xl text-2xl flex items-center justify-center transition border cursor-pointer ${c.flipped || c.matched
                       ? "bg-purple-50 border-[#841DED]"
                       : "bg-gray-50 border-gray-200 hover:border-gray-300"
-                  }`}
+                    }`}
                 >
                   {c.flipped || c.matched ? c.emoji : "❓"}
                 </button>
