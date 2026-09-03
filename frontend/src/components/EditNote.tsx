@@ -1,4 +1,5 @@
 import React from "react";
+import { HiOutlineXMark, HiOutlineCheck } from "react-icons/hi2";
 
 type Note = {
   _id: string;
@@ -105,14 +106,16 @@ const EditNote = ({ isOpen, onClose, onEditNote, note }: EditNoteProps) => {
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 rounded-xl border border-gray-200 px-4 py-3 font-medium text-[#7C748E] transition hover:bg-gray-50"
+              className="flex-1 flex items-center justify-center gap-2 rounded-xl border-2 border-gray-200 px-4 py-3 font-medium text-[#7C748E] transition hover:bg-gray-50 hover:border-gray-300"
             >
+              <HiOutlineXMark size={18} />
               Cancel
             </button>
             <button
               type="submit"
-              className="flex-1 rounded-xl bg-[#841DED] px-4 py-3 font-medium text-white transition hover:bg-[#7418D9]"
+              className="flex-1 flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#841DED] to-[#7418D9] px-4 py-3 font-medium text-white hover:from-[#7418D9] hover:to-[#6416C7] shadow-md hover:shadow-lg transition-all duration-200"
             >
+              <HiOutlineCheck size={18} />
               Save Changes
             </button>
           </div>

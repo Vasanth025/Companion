@@ -8,6 +8,7 @@ import AuthLayout from "./layout/AuthLayout";
 import MainLayout from "./layout/MainLayout";
 import Todos from "./pages/Todos";
 import Notes from "./pages/Notes";
+import Diary from "./pages/Diary";
 
 const App = () =>{
   return(
@@ -23,6 +24,7 @@ const App = () =>{
           <Route element={<MainLayout />}>
             <Route path="/todos" element={<Todos />} />
             <Route path="/notes" element={<Notes />} />
+            <Route path="/diary" element={<Diary />} />
           </Route>
         </Routes>
       </BrowserRouter>

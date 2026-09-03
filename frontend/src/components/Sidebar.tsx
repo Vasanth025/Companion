@@ -1,8 +1,10 @@
 import React from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import {
   HiOutlineClipboardDocumentList,
   HiOutlineBookOpen,
+  HiOutlinePencil,
 } from "react-icons/hi2";
 import { IoGameControllerOutline } from "react-icons/io5";
 
@@ -15,7 +17,9 @@ type User = {
 };
 
 const Sidebar = () => {
+  const navigate = useNavigate();
   const [user, setUser] = React.useState<User | null>(null);
+  const [activeItem, setActiveItem] = React.useState("Tasks");
 
   React.useEffect(() => {
     const fetchUser = async () => {
@@ -42,22 +46,22 @@ const Sidebar = () => {
     {
       name: "Tasks",
       icon: <HiOutlineClipboardDocumentList size={22} />,
-      active: true,
+      path: "/todos",
     },
     {
       name: "Notes",
       icon: <HiOutlineBookOpen size={22} />,
-      active: false,
+      path: "/notes",
     },
     {
       name: "Diary",
-      icon: <HiOutlineBookOpen size={22} />,
-      active: false,
+      icon: <HiOutlinePencil size={22} />,
+      path: "/diary",
     },
     {
       name: "Games",
       icon: <IoGameControllerOutline size={22} />,
-      active: false,
+      path: "/games",
     },
   ];
 
@@ -93,9 +97,13 @@ const Sidebar = () => {
           {menuItems.map((item) => (
             <li key={item.name}>
               <button
+                onClick={() => {
+                  setActiveItem(item.name);
+                  navigate(item.path);
+                }}
                 className={`flex w-full items-center gap-4 rounded-2xl px-4 py-4 transition
                   ${
-                    item.active
+                    activeItem === item.name
                       ? "bg-[#F3ECFF] text-[#841DED] font-semibold"
                       : "text-[#7C748E] hover:bg-[#F8F7FC] hover:text-[#841DED]"
                   }`}
