@@ -2,7 +2,8 @@ import Note from "../models/notes.model.js";
 
 const createNote = async (req, res) => {
     try {
-        const { title, description, userId, category } = req.body;
+        const { title, description, category } = req.body;
+        const userId = req.user.id;
 
         if (!title) {
             return res.json({ status: 404, error: "Missing title" })
