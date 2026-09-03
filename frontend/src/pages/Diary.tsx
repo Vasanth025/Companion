@@ -331,17 +331,7 @@ const Diary = () => {
               />
             </div>
 
-            {/* Current Streak */}
-            <div className="bg-white rounded-2xl p-6 shadow-sm">
-              <div className="flex items-center gap-2 mb-4">
-                <HiOutlineFire size={24} className="text-orange-500" />
-                <h2 className="text-lg font-semibold text-[#1F1B2D]">Current Streak</h2>
-              </div>
-              <div className="text-center">
-                <p className="text-4xl font-bold text-orange-500">{streak}</p>
-                <p className="mt-2 text-[#7C748E]">days</p>
-              </div>
-            </div>
+
 
             {/* Recent Entries */}
             <div className="bg-white rounded-2xl p-6 shadow-sm">

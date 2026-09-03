@@ -97,15 +97,17 @@ const deleteTodo = async (req, res) => {
 
 const getTodoByDate = async (req, res) => {
     try {
-        const {date} = req.body;
+        const { date } = req.body;
 
-        if(!date)
-            return res.json({error: 'date is required'});
+        if (!date)
+            return res.json({ error: 'date is required' });
 
-        const todos = await Todo.find({createdAt: {
-            $gt: date,
-            $lt: new Date(date).setHours(23, 59, 59, 999)
-        }})
+        const todos = await Todo.find({
+            createdAt: {
+                $gt: date,
+                $lt: new Date(date).setHours(23, 59, 59, 999)
+            }
+        })
 
         return res.json({
             status: 200,
@@ -118,14 +120,14 @@ const getTodoByDate = async (req, res) => {
     }
 }
 
-const getTodoByDueDate = async(req, res) => {
+const getTodoByDueDate = async (req, res) => {
     try {
-        const {date} = req.body;
+        const { date } = req.body;
 
-        if(!date)
-            return res.json({error: 'date is required'});
+        if (!date)
+            return res.json({ error: 'date is required' });
 
-        const todos = await Todo.find({dueDate: date, completed: false});
+        const todos = await Todo.find({ dueDate: date, completed: false });
 
         return res.json({
             status: 200,

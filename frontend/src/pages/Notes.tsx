@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import { HiOutlineMagnifyingGlass, HiOutlineCog6Tooth } from "react-icons/hi2";
+import { HiOutlineMagnifyingGlass } from "react-icons/hi2";
 import NoteCard from "../components/NoteCard";
 import AddNote from "../components/AddNote";
 import EditNote from "../components/EditNote";
@@ -196,9 +196,6 @@ const Notes = () => {
         <h1 className="text-3xl font-bold text-[#1F1B2D]">All Notes</h1>
         <div className="flex items-center gap-3">
           <AddNote onAddNote={handleAddNote} />
-          <button className="rounded-lg p-2 text-[#7C748E] hover:bg-white hover:shadow-sm transition">
-            <HiOutlineCog6Tooth size={24} />
-          </button>
         </div>
       </div>
 
