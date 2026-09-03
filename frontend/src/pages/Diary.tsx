@@ -20,7 +20,7 @@ type DiaryEntry = {
 const Diary = () => {
   const [selectedDate, setSelectedDate] = React.useState(new Date());
   const [entries, setEntries] = React.useState<DiaryEntry[]>([]);
-  const [loading, setLoading] = React.useState(true);
+  // const [loading, setLoading] = React.useState(true);
   const [currentEntry, setCurrentEntry] = React.useState<DiaryEntry | null>(null);
   const [title, setTitle] = React.useState("");
   const [content, setContent] = React.useState("");
@@ -43,8 +43,6 @@ const Diary = () => {
       }
     } catch (error) {
       console.error("Error fetching diary entries:", error);
-    } finally {
-      setLoading(false);
     }
   };
 

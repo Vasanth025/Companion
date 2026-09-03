@@ -21,11 +21,11 @@ const Calendar = ({ selectedDate, onDateSelect, entries }: CalendarProps) => {
   };
 
   const hasEntry = (day: number) => {
-    const checkDate = new Date(
-      currentMonth.getFullYear(),
-      currentMonth.getMonth(),
-      day
-    );
+    // const checkDate = new Date(
+    //   currentMonth.getFullYear(),
+    //   currentMonth.getMonth(),
+    //   day
+    // );
     return entries.some((entry) => {
       const entryDate = new Date(entry.date);
       return (
